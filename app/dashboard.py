@@ -520,6 +520,8 @@ if "weather_error" not in st.session_state:
     st.session_state["weather_error"] = None
 if "has_predicted" not in st.session_state:
     st.session_state["has_predicted"] = False
+if "weather_fetched_recently" not in st.session_state:
+    st.session_state["weather_fetched_recently"] = False
 if "prediction_result" not in st.session_state:
     st.session_state["prediction_result"] = None
 if "last_feature_vector" not in st.session_state:
@@ -554,6 +556,7 @@ def update_weather_state(city: str):
         st.session_state["has_predicted"] = False
         st.session_state["prediction_result"] = None
         st.session_state["prediction_error"] = None
+        st.session_state["weather_fetched_recently"] = True
     except Exception as _wex:
         st.session_state["weather_error"] = f"Weather fetch failed: {_wex}"
         st.session_state["weather_fetched"] = False
@@ -913,7 +916,14 @@ if "Batch CSV" not in str(app_mode):
     # display a black overlay and appear frozen/crashed.
     # Solution: Store result in session_state; reuse cached result on reruns.
     # -----------------------------------------------------------------------
-    if predict_clicked or not st.session_state.get("has_predicted"):
+    run_prediction = False
+    if predict_clicked:
+        run_prediction = True
+    elif st.session_state.get("weather_fetched_recently"):
+        run_prediction = True
+        st.session_state["weather_fetched_recently"] = False
+
+    if run_prediction:
         with st.spinner("🔄 Running Random Forest inference..."):
             try:
                 res = predict_delay(input_payload)
@@ -964,16 +974,7 @@ if "Batch CSV" not in str(app_mode):
     # ---------------------------------------------------------
     st.markdown("<br>", unsafe_allow_html=True)
 
-    with st.container(border=True):
-        st.markdown('<div class="card-header-title">📊 Prediction Result & Risk Assessment</div>', unsafe_allow_html=True)
-
-        if not st.session_state.get("has_predicted"):
-            st.info("👆 Click **Calculate Shipment Delay Prediction** above to run the AI model and see your results here.")
-        else:
-            _prediction_label = res.get("prediction", "On Time")
-            _delay_prob = float(res.get("delay_probability") or 0.0)
-            _confidence = float(res.get("confidence") or 0.0)
-
+    def render_prediction_details(res, expected_transit_days, expected_delivery_date, traffic_index, distance_km, documentation_complete, maintenance_status, wt_cat, input_payload):
         res_col1, res_col2, res_col3 = st.columns([1.3, 1, 1], vertical_alignment="center")
 
         with res_col1:
@@ -989,7 +990,7 @@ if "Batch CSV" not in str(app_mode):
                 st.markdown("""
                 <div class="status-delayed-card" style="background: #FEF2F2; border-color: #F87171;">
                     <div style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; opacity:0.8; color: #991B1B;">PREDICTION STATUS</div>
-                    <div class="result-badge-text" style="color: #991B1B;">⚠️ ERROR</div>
+                    <div class="result-badge-text">⚠️ ERROR</div>
                     <div class="result-subtext" style="color: #991B1B;">Model inference failed. Please check the logs.</div>
                 </div>
                 """, unsafe_allow_html=True)
@@ -1091,8 +1092,13 @@ if "Batch CSV" not in str(app_mode):
             f'</div>',
             unsafe_allow_html=True
         )
+    with st.container(border=True):
+        st.markdown('<div class="card-header-title">📊 Prediction Result & Risk Assessment</div>', unsafe_allow_html=True)
 
-    # ---------------------------------------------------------
+        if not st.session_state.get("has_predicted"):
+            st.info("👆 Click **Calculate Shipment Delay Prediction** above to run the AI model and see your results here.")
+        else:
+            render_prediction_details(res, expected_transit_days, expected_delivery_date, traffic_index, distance_km, documentation_complete, maintenance_status, wt_cat, input_payload)
     # SECTION 6: WEATHER FORECAST PANELS
     # ---------------------------------------------------------
     with st.container(border=True):

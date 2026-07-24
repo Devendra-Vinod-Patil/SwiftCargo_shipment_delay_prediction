@@ -1,5 +1,5 @@
 import pandas as pd
-import numpy as np
+import numpy as np  # pyrefly: ignore [missing-import]
 
 # Dataset medians derived from training data for fallback when partial inputs are provided
 DEFAULT_FEATURE_MEDIANS = {

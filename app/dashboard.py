@@ -917,7 +917,7 @@ if "Batch CSV" not in str(app_mode):
     # Solution: Store result in session_state; reuse cached result on reruns.
     # -----------------------------------------------------------------------
     run_prediction = False
-    if predict_clicked:
+    if predict_clicked or st.session_state.get("has_predicted"):
         run_prediction = True
     elif st.session_state.get("weather_fetched_recently"):
         run_prediction = True

@@ -550,6 +550,10 @@ def update_weather_state(city: str):
         # Invalidate cached forecast so it is re-fetched for the new city
         st.session_state["forecast_data"] = None
         st.session_state["forecast_city"] = ""
+        # KEY FIX: Reset prediction so it automatically re-runs with new weather data
+        st.session_state["has_predicted"] = False
+        st.session_state["prediction_result"] = None
+        st.session_state["prediction_error"] = None
     except Exception as _wex:
         st.session_state["weather_error"] = f"Weather fetch failed: {_wex}"
         st.session_state["weather_fetched"] = False

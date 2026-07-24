@@ -1099,62 +1099,6 @@ if "Batch CSV" not in str(app_mode):
             st.info("👆 Click **Calculate Shipment Delay Prediction** above to run the AI model and see your results here.")
         else:
             render_prediction_details(res, expected_transit_days, expected_delivery_date, traffic_index, distance_km, documentation_complete, maintenance_status, wt_cat, input_payload)
-    # SECTION 6: WEATHER FORECAST PANELS
-    # ---------------------------------------------------------
-    with st.container(border=True):
-        _forecast_city = st.session_state.get("city_name", "Mumbai")
-        st.markdown(f'<div class="card-header-title">📈 Weather Forecast Telemetry ({_forecast_city})</div>', unsafe_allow_html=True)
-
-        tab1, tab2, tab3 = st.tabs(["🕒 Hourly Forecast", "🌧️ 24-Hour Rainfall Prediction", "📅 5-Day Forecast"])
-
-        # Only fetch forecast if city changed or not yet fetched — prevents crash on every rerun
-        if st.session_state.get("forecast_city") != _forecast_city or st.session_state.get("forecast_data") is None:
-            try:
-                _fc = cached_get_weather_forecast(_forecast_city)
-                st.session_state["forecast_data"] = _fc
-                st.session_state["forecast_city"] = _forecast_city
-            except Exception as _fcex:
-                st.session_state["forecast_data"] = {"success": False, "entries": [], "error": str(_fcex)}
-                st.session_state["forecast_city"] = _forecast_city
-
-        fc_data = st.session_state.get("forecast_data") or {"success": False, "entries": []}
-
-        with tab1:
-            if fc_data.get("success") and fc_data.get("entries"):
-                try:
-                    df_fc = pd.DataFrame(fc_data["entries"])
-                    _hourly_cols = [c for c in ["datetime", "weather_condition", "description", "temp", "rain_pop", "rain_3h", "wind_speed"] if c in df_fc.columns]
-                    df_hourly = df_fc.head(8)[_hourly_cols]
-                    df_hourly.columns = ["Date & Time", "Condition", "Details", "Temp (°C)", "Rain Prob (%)", "3h Rain (mm)", "Wind (km/h)"][:len(_hourly_cols)]
-                    st.dataframe(df_hourly, use_container_width=True, hide_index=True)
-                except Exception as _e:
-                    st.warning(f"Hourly forecast display error: {_e}")
-            else:
-                st.warning("Hourly forecast telemetry currently unavailable.")
-
-        with tab2:
-            if fc_data.get("success") and fc_data.get("entries"):
-                try:
-                    df_fc = pd.DataFrame(fc_data["entries"]).head(8)
-                    render_rainfall_altair_chart(df_fc)
-                except Exception as _e:
-                    st.info(f"24-Hour rainfall chart error: {_e}")
-            else:
-                st.info("24-Hour rainfall prediction chart unavailable.")
-
-        with tab3:
-            if fc_data.get("success") and fc_data.get("entries"):
-                try:
-                    df_fc = pd.DataFrame(fc_data["entries"])
-                    _5d_cols = [c for c in ["datetime", "weather_condition", "description", "temp", "humidity", "wind_speed"] if c in df_fc.columns]
-                    df_5d = df_fc[_5d_cols]
-                    df_5d.columns = ["Date & Time", "Condition", "Description", "Temp (°C)", "Humidity (%)", "Wind Speed (km/h)"][:len(_5d_cols)]
-                    st.dataframe(df_5d, use_container_width=True, hide_index=True)
-                except Exception as _e:
-                    st.warning(f"5-Day forecast display error: {_e}")
-            else:
-                st.warning("5-Day forecast telemetry currently unavailable.")
-
 
 # =============================================================
 # MODE 2: BATCH CSV PROCESSOR & ADVANCED ANALYTICS

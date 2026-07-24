@@ -486,7 +486,7 @@ st.markdown("""
 <div class="hero-banner">
     <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
         <div>
-            <div class="hero-title">🚚 Shipment Delay Predictor Pro</div>
+            <div class="hero-title">🚚 SwiftCargo Shipment Delay Prediction System</div>
             <div class="hero-subtitle">AI Logistics Intelligence & Real-Time Weather Prediction</div>
         </div>
         <div class="accuracy-badge">

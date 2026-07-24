@@ -25,12 +25,14 @@ SELECTED_FEATURES_PATH = os.path.join(MODEL_DIR, "selected_features.pkl")
 SCALER_PATH = os.path.join(MODEL_DIR, "scaler.pkl")
 
 # Load model and selected features
+model_load_error = None
 try:
     model = joblib.load(MODEL_PATH)
     selected_features = joblib.load(SELECTED_FEATURES_PATH)
-except Exception:
+except Exception as e:
     model = None
     selected_features = []
+    model_load_error = f"Model load error: {str(e)}"
 
 try:
     scaler = joblib.load(SCALER_PATH)
@@ -94,7 +96,7 @@ def predict_delay(input_data):
             "expected_transit_days": 0.0,
             "expected_delivery_date": "N/A",
             "prediction_class": -1,
-            "error": "Model artifacts could not be loaded."
+            "error": f"Model artifacts could not be loaded. Details: {model_load_error}"
         }
 
     try:

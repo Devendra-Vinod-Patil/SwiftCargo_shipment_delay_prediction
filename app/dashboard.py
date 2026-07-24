@@ -985,6 +985,16 @@ if "Batch CSV" not in str(app_mode):
                     <div class="result-subtext">Low disruption probability. Transit parameters within nominal operating bounds.</div>
                 </div>
                 """, unsafe_allow_html=True)
+            elif res.get("prediction") == "Error":
+                st.markdown("""
+                <div class="status-delayed-card" style="background: #FEF2F2; border-color: #F87171;">
+                    <div style="font-size:0.85rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; opacity:0.8; color: #991B1B;">PREDICTION STATUS</div>
+                    <div class="result-badge-text" style="color: #991B1B;">⚠️ ERROR</div>
+                    <div class="result-subtext" style="color: #991B1B;">Model inference failed. Please check the logs.</div>
+                </div>
+                """, unsafe_allow_html=True)
+                if res.get("error"):
+                    st.error(f"Error Details: {res['error']}")
             else:
                 st.markdown("""
                 <div class="status-delayed-card">

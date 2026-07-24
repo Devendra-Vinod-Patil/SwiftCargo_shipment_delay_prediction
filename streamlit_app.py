@@ -1,10 +1,8 @@
-"""
-streamlit_app.py — Root entry point for Streamlit Cloud deployment.
-
-Streamlit Cloud reruns the entry script on every user interaction.
-Using exec() ensures dashboard.py is re-executed each rerun instead
-of being served from Python's module cache (which would cause a blank UI).
-"""
+# streamlit_app.py — Root entry point for Streamlit Cloud deployment.
+#
+# Streamlit Cloud reruns the entry script on every user interaction.
+# Using exec() ensures dashboard.py is re-executed each rerun instead
+# of being served from Python's module cache (which would cause a blank UI).
 
 import os
 import sys
@@ -16,4 +14,4 @@ if BASE_DIR not in sys.path:
 
 # Execute dashboard fresh on every Streamlit rerun (exec avoids module cache)
 _dashboard_path = os.path.join(BASE_DIR, "app", "dashboard.py")
-exec(open(_dashboard_path, encoding="utf-8").read())  # noqa: S102
+exec(open(_dashboard_path, encoding="utf-8").read())  # noqa: S102  # pyrefly: ignore [missing-import]

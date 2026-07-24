@@ -1,0 +1,8 @@
+joblib==1.5.3
+pandas==3.0.3
+numpy==2.4.6
+scikit-learn==1.6.1
+streamlit==1.59.2
+altair==6.2.2
+requests==2.34.2
+urllib3==2.7.0

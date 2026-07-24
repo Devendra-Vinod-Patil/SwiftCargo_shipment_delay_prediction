@@ -1,0 +1,8 @@
+# Ensure consistent line endings across platforms
+* text=auto
+
+# Treat notebooks as binary to avoid merge conflicts on outputs
+*.ipynb binary
+
+# Model files are binary
+*.pkl binary

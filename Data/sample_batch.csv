@@ -1,0 +1,11 @@
+shipment_id,booking_date,ship_date,expected_delivery_date,priority,weight_kg,volume_cbm,declared_value,capacity_kg,maintenance_status,distance_km,route_risk,traffic_index,temperature,rainfall,humidity,wind_speed,visibility,documentation_complete,shipment_type,weather_condition
+SHP-1001,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,350,Low,2,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1002,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,100,Low,50,25,0,40,2,10,Yes,Domestic,Clear
+SHP-1003,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,350,Low,100,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1004,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,350,Low,2,20,300,95,70,2,Yes,Domestic,Rain
+SHP-1005,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,3000,Low,2,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1006,2024-01-01,2024-01-02,2024-01-08,Standard,450,2.5,200000,500,Good,350,Low,2,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1007,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,350,Low,2,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1008,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,2500,High,90,30,10,60,12,8,Yes,Domestic,Clear
+SHP-1009,2024-01-01,2024-01-02,2024-01-08,Standard,120,2.5,50000,500,Good,350,High,95,30,250,60,12,1,Yes,Import,Storm
+SHP-1010,2024-01-01,2024-01-02,2024-01-08,Urgent,450,2.5,200000,500,Under Maintenance,3000,High,100,45,300,95,70,1,No,Import,Storm

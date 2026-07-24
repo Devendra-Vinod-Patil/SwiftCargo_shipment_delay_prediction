@@ -520,8 +520,6 @@ if "weather_error" not in st.session_state:
     st.session_state["weather_error"] = None
 if "has_predicted" not in st.session_state:
     st.session_state["has_predicted"] = False
-if "weather_fetched_recently" not in st.session_state:
-    st.session_state["weather_fetched_recently"] = False
 if "prediction_result" not in st.session_state:
     st.session_state["prediction_result"] = None
 if "last_feature_vector" not in st.session_state:
@@ -552,11 +550,10 @@ def update_weather_state(city: str):
         # Invalidate cached forecast so it is re-fetched for the new city
         st.session_state["forecast_data"] = None
         st.session_state["forecast_city"] = ""
-        # KEY FIX: Reset prediction so it automatically re-runs with new weather data
+        # KEY FIX: Reset prediction state when weather changes
         st.session_state["has_predicted"] = False
         st.session_state["prediction_result"] = None
         st.session_state["prediction_error"] = None
-        st.session_state["weather_fetched_recently"] = True
     except Exception as _wex:
         st.session_state["weather_error"] = f"Weather fetch failed: {_wex}"
         st.session_state["weather_fetched"] = False
@@ -917,11 +914,8 @@ if "Batch CSV" not in str(app_mode):
     # Solution: Store result in session_state; reuse cached result on reruns.
     # -----------------------------------------------------------------------
     run_prediction = False
-    if predict_clicked or st.session_state.get("has_predicted"):
+    if predict_clicked:
         run_prediction = True
-    elif st.session_state.get("weather_fetched_recently"):
-        run_prediction = True
-        st.session_state["weather_fetched_recently"] = False
 
     if run_prediction:
         with st.spinner("🔄 Running Random Forest inference..."):

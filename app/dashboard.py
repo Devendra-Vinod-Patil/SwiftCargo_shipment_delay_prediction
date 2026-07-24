@@ -501,19 +501,19 @@ st.markdown("""
 # SESSION STATE INITIALIZATION
 # -------------------------------------------------------------
 if "city_name" not in st.session_state:
-    st.session_state["city_name"] = "Mumbai"
+    st.session_state["city_name"] = ""
 if "auto_temperature" not in st.session_state:
-    st.session_state["auto_temperature"] = 28.5
+    st.session_state["auto_temperature"] = 0.0
 if "auto_humidity" not in st.session_state:
-    st.session_state["auto_humidity"] = 75
+    st.session_state["auto_humidity"] = 0
 if "auto_wind_speed" not in st.session_state:
-    st.session_state["auto_wind_speed"] = 14.0
+    st.session_state["auto_wind_speed"] = 0.0
 if "auto_visibility" not in st.session_state:
-    st.session_state["auto_visibility"] = 8.5
+    st.session_state["auto_visibility"] = 0.0
 if "auto_rainfall" not in st.session_state:
     st.session_state["auto_rainfall"] = 0.0
 if "auto_weather_condition" not in st.session_state:
-    st.session_state["auto_weather_condition"] = "Cloudy"
+    st.session_state["auto_weather_condition"] = "Clear"
 if "weather_fetched" not in st.session_state:
     st.session_state["weather_fetched"] = False
 if "weather_error" not in st.session_state:
@@ -529,7 +529,7 @@ if "last_feature_vector" not in st.session_state:
 if "prediction_error" not in st.session_state:
     st.session_state["prediction_error"] = None
 if "traffic_val" not in st.session_state:
-    st.session_state["traffic_val"] = 25
+    st.session_state["traffic_val"] = 0
 if "forecast_data" not in st.session_state:
     st.session_state["forecast_data"] = None
 if "forecast_city" not in st.session_state:
@@ -681,8 +681,8 @@ if "Batch CSV" not in str(app_mode):
             shipment_type = st.selectbox("Shipment Type 🔽", ["Domestic", "Import", "Export"], index=0, help="Select logistics movement jurisdiction.")
 
         with col2:
-            declared_value = st.number_input("Declared Value ($)", min_value=100.0, max_value=5000000.0, value=45000.0, step=1000.0, help="Declared commercial value of freight in USD.")
-            weight_kg = st.number_input("Weight (kg)", min_value=1.0, max_value=20000.0, value=250.0, step=10.0, help="Total gross weight in kilograms.")
+            declared_value = st.number_input("Declared Value ($)", min_value=0.0, max_value=5000000.0, value=0.0, step=1000.0, help="Declared commercial value of freight in USD.")
+            weight_kg = st.number_input("Weight (kg)", min_value=0.0, max_value=20000.0, value=0.0, step=10.0, help="Total gross weight in kilograms.")
 
         # Auto Weight Category calculation
         if weight_kg < 100:
@@ -740,7 +740,7 @@ if "Batch CSV" not in str(app_mode):
         r_col1, r_col2 = st.columns(2)
 
         with r_col1:
-            distance_km = st.number_input("Distance (km)", min_value=10.0, max_value=15000.0, value=380.0, step=25.0, help="Total travel distance between origin and destination hub.")
+            distance_km = st.number_input("Distance (km)", min_value=0.0, max_value=15000.0, value=0.0, step=25.0, help="Total travel distance between origin and destination hub.")
             route_risk = st.selectbox("Route Risk Level 🔽", ["Low", "Medium", "High"], index=0, help="Historical hazard risk level of the assigned highway corridor.")
             
             # Traffic slider with live readout
@@ -756,14 +756,14 @@ if "Batch CSV" not in str(app_mode):
             maintenance_status = st.selectbox("Vehicle Maintenance 🔽", ["Good", "Due", "Under Maintenance"], index=0, help="Fleet vehicle mechanical inspection status.")
             expected_transit_days = st.number_input(
                 "Expected Transit Days ⏱️",
-                min_value=0.5,
+                min_value=0.0,
                 max_value=30.0,
-                value=1.0,
+                value=0.0,
                 step=0.5,
                 help="Enter expected transit days directly (e.g., 1 day, 2 days, 5 days)."
             )
             st.write("")
-            doc_complete_toggle = st.toggle("Documentation Complete", value=True, help="Toggle whether customs and dispatch paperwork is fully verified.")
+            doc_complete_toggle = st.toggle("Documentation Complete", value=False, help="Toggle whether customs and dispatch paperwork is fully verified.")
             documentation_complete = bool(doc_complete_toggle)
 
         ship_date = datetime.now().date()

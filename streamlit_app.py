@@ -1,8 +1,9 @@
 """
 streamlit_app.py — Root entry point for Streamlit Cloud deployment.
 
-Streamlit Cloud looks for the app file at the repository root.
-This file bootstraps the path and runs the main dashboard.
+Streamlit Cloud reruns the entry script on every user interaction.
+Using exec() ensures dashboard.py is re-executed each rerun instead
+of being served from Python's module cache (which would cause a blank UI).
 """
 
 import os
@@ -13,5 +14,6 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 if BASE_DIR not in sys.path:
     sys.path.insert(0, BASE_DIR)
 
-# Import and execute the main dashboard
-import app.dashboard  # noqa: F401, E402
+# Execute dashboard fresh on every Streamlit rerun (exec avoids module cache)
+_dashboard_path = os.path.join(BASE_DIR, "app", "dashboard.py")
+exec(open(_dashboard_path, encoding="utf-8").read())  # noqa: S102

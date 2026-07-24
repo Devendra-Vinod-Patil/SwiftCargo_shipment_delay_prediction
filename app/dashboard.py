@@ -1148,7 +1148,11 @@ else:
         st.markdown('<div class="card-header-title">📁 Bulk Batch CSV Processor & Advanced Analytics</div>', unsafe_allow_html=True)
         st.write("Upload a CSV dataset of shipments or load sample telemetry to execute bulk machine learning inference, filter predictions, and explore risk analytics.")
 
-        sample_batch_file = os.path.join(PROJECT_ROOT, "data", "sample_batch.csv")
+        # Case-insensitive fallback: 'Data' on Windows, 'data' on Linux (Streamlit Cloud)
+        _data_dir = os.path.join(PROJECT_ROOT, "Data")
+        if not os.path.exists(_data_dir):
+            _data_dir = os.path.join(PROJECT_ROOT, "data")
+        sample_batch_file = os.path.join(_data_dir, "sample_batch.csv")
 
         c1, c2, c3 = st.columns([1, 1.2, 2])
         with c1:

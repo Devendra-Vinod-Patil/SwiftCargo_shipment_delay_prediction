@@ -179,13 +179,6 @@ print("Delay Prediction:", result["delay_prediction"])
 | **OpenWeatherMap API** | Live weather data |
 | **joblib** | Model serialization |
 
----
-
-## 📜 License
-
-This project is licensed under the **MIT License**.
-
----
 
 <div align="center">
 
